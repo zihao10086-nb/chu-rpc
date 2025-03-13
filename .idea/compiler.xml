@@ -13,6 +13,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="chu-rpc-core" />
         <module name="chu-rpc-easy" />
         <module name="example-provider" />
         <module name="example-common" />

@@ -1,6 +1,8 @@
 package com.qiaochu.example.consumer;
 
+import com.qiaochu.churpc.config.RpcConfig;
 import com.qiaochu.churpc.proxy.ServiceProxyFactory;
+import com.qiaochu.churpc.utils.ConfigUtils;
 import com.qiaochu.example.common.model.User;
 import com.qiaochu.example.common.service.UserService;
 
@@ -13,6 +15,7 @@ public class EasyExampleConsumer {
 
 //        //静态代理
 //        UserService userService = new UserServiceProxy();
+
         //动态代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
@@ -24,6 +27,9 @@ public class EasyExampleConsumer {
         }else {
             System.out.println("user == null");
         }
+
+        short number = userService.getNumber();
+        System.out.println(number);
 
 
     }
