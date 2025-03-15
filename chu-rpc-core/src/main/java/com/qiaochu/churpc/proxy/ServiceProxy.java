@@ -2,10 +2,12 @@ package com.qiaochu.churpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.qiaochu.churpc.RpcApplication;
 import com.qiaochu.churpc.model.RpcRequest;
 import com.qiaochu.churpc.model.RpcResponse;
 import com.qiaochu.churpc.serializer.JdkSerializer;
 import com.qiaochu.churpc.serializer.Serializer;
+import com.qiaochu.churpc.serializer.SerializerFactory;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -24,7 +26,7 @@ public class ServiceProxy implements InvocationHandler {
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
 
         //指定序列化器
-        Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getConfig().getSerializer());
         //发请求
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(method.getDeclaringClass().getName())

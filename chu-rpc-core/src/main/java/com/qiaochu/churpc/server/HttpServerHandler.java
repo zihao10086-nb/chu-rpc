@@ -1,10 +1,12 @@
 package com.qiaochu.churpc.server;
 
+import com.qiaochu.churpc.RpcApplication;
 import com.qiaochu.churpc.model.RpcRequest;
 import com.qiaochu.churpc.model.RpcResponse;
 import com.qiaochu.churpc.registry.LocalRegistry;
 import com.qiaochu.churpc.serializer.JdkSerializer;
 import com.qiaochu.churpc.serializer.Serializer;
+import com.qiaochu.churpc.serializer.SerializerFactory;
 import io.vertx.core.Handler;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.http.HttpServerRequest;
@@ -19,7 +21,7 @@ public class HttpServerHandler implements Handler<HttpServerRequest> {
     @Override
     public void handle(HttpServerRequest request) {
         //指定序列化器
-        final Serializer serializer = new JdkSerializer();
+        final Serializer serializer = SerializerFactory.getInstance(RpcApplication.getConfig().getSerializer());
         //记录日志
         System.out.println("Received request: "+request.method()+" "+request.uri());
         //异步处理HTTP请求

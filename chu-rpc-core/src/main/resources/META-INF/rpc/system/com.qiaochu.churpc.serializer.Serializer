@@ -1,0 +1,4 @@
+jdk=com.qiaochu.churpc.serializer.jdk.JdkSerializer
+json=com.qiaochu.churpc.serializer.json.JsonSerializer
+kryo=com.qiaochu.churpc.serializer.kryo.KryoSerializer
+hessian=com.qiaochu.churpc.serializer.hessian.HessianSerializer
