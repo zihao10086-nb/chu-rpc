@@ -47,4 +47,10 @@ public interface Registry {
      * 服务端
      */
     void heartBeat();
+
+    /**
+     * 监听服务变化
+     * 消费端
+     */
+    void watch(String serviceNodeKey);
 }

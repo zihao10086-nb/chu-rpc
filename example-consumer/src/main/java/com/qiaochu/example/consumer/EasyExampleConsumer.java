@@ -2,6 +2,7 @@ package com.qiaochu.example.consumer;
 
 import com.qiaochu.churpc.config.RpcConfig;
 import com.qiaochu.churpc.proxy.ServiceProxyFactory;
+import com.qiaochu.churpc.registry.Registry;
 import com.qiaochu.churpc.serializer.Serializer;
 import com.qiaochu.churpc.utils.ConfigUtils;
 import com.qiaochu.example.common.model.User;
@@ -19,6 +20,9 @@ public class EasyExampleConsumer {
         //动态代理
         UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
+
+
+
         user.setName("qiaochu");
         //调用
         User newUser = userService.getUser(user);
