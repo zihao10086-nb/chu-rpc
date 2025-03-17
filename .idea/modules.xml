@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/chu-rpc.iml" filepath="$PROJECT_DIR$/.idea/chu-rpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/chu-rpc-core.iml" filepath="$PROJECT_DIR$/chu-rpc-core.iml" />
     </modules>
   </component>
 </project>

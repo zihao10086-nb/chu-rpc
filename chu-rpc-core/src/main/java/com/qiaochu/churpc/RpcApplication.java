@@ -1,7 +1,10 @@
 package com.qiaochu.churpc;
 
+import com.qiaochu.churpc.config.RegistryConfig;
 import com.qiaochu.churpc.config.RpcConfig;
 import com.qiaochu.churpc.constant.RpcConstant;
+import com.qiaochu.churpc.registry.Registry;
+import com.qiaochu.churpc.registry.RegistryFactory;
 import com.qiaochu.churpc.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -22,6 +25,11 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         config = newRpcConfig;
         log.info("rpc init ,config={}", newRpcConfig.toString());
+        //注册中心初始化
+        RegistryConfig registryConfig = config.getRegistryConfig();
+        Registry registry= RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init ,config={}", registryConfig);
     }
 
     /**
