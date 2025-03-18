@@ -9,6 +9,7 @@ import com.qiaochu.churpc.registry.Registry;
 import com.qiaochu.churpc.registry.RegistryFactory;
 import com.qiaochu.churpc.server.HttpServer;
 import com.qiaochu.churpc.server.VertxHttpServer;
+import com.qiaochu.churpc.server.tcp.VertxTcpServer;
 import com.qiaochu.example.common.service.UserService;
 
 /**
@@ -36,7 +37,10 @@ public class EasyProviderExample {
             throw new RuntimeException(e);
         }
         //启动web服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getConfig().getServerPort());
+//        HttpServer httpServer = new VertxHttpServer();
+//        httpServer.doStart(RpcApplication.getConfig().getServerPort());
+        //启动TCP服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8882);
     }
 }
