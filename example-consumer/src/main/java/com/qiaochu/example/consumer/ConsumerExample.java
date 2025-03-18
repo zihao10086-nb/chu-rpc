@@ -22,9 +22,8 @@ public class ConsumerExample {
         registry.init(registryConfig);
         List<ServiceMetaInfo> serviceMetaInfos1 = registry.serviceDiscovery("");
         System.out.println(serviceMetaInfos1);
-        serviceMetaInfos1 = registry.serviceDiscovery("");
+        serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu");
         System.out.println(serviceMetaInfos1);
-        System.out.println(1);
         Thread.sleep(10000);
         serviceMetaInfos1= registry.serviceDiscovery("");
         System.out.println(serviceMetaInfos1);

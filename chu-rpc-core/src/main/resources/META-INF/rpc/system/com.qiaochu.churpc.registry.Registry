@@ -1,1 +1,2 @@
 etcd=com.qiaochu.churpc.registry.EtcdRegistry
+zookeeper=com.qiaochu.churpc.registry.ZooKeeperRegistry

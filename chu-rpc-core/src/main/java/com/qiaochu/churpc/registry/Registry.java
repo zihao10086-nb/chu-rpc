@@ -27,7 +27,7 @@ public interface Registry {
      * 服务端
      * @param serviceMetaInfo
      */
-    void unregister(ServiceMetaInfo serviceMetaInfo) ;
+    void unRegister(ServiceMetaInfo serviceMetaInfo) ;
 
     /**
      * 服务发现 获取某服务的所有节点
