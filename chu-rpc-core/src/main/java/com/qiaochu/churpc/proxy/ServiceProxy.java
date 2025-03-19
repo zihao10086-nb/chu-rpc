@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.qiaochu.churpc.RpcApplication;
 import com.qiaochu.churpc.config.RpcConfig;
 import com.qiaochu.churpc.constant.RpcConstant;
+import com.qiaochu.churpc.loadbalancer.LoadBalancer;
+import com.qiaochu.churpc.loadbalancer.LoadBalancerFactory;
 import com.qiaochu.churpc.model.RpcRequest;
 import com.qiaochu.churpc.model.RpcResponse;
 import com.qiaochu.churpc.model.ServiceMetaInfo;
@@ -25,7 +27,9 @@ import io.vertx.core.net.NetSocket;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -63,12 +67,17 @@ public class ServiceProxy implements InvocationHandler {
             serviceMetaInfo.setServiceName(serviceName);
             serviceMetaInfo.setServiceVersion(RpcConstant.DEFAULT_SERVICE_VERSION);
             List<ServiceMetaInfo> serviceMetaInfos = registry.serviceDiscovery(serviceMetaInfo.getServiceKey());
-            if (CollUtil.isEmpty(serviceMetaInfos)){
+            if (CollUtil.isEmpty(serviceMetaInfos)) {
                 throw new Exception("暂无服务地址");
             }
-            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfos.get(0);
+            //负载均衡
+            LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
+            //将调用方法名作为负载均衡参数
+            Map<String, Object> requestParams = new HashMap<>();
+            requestParams.put("methodName",rpcRequest.getMethodName());
+            ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfos);
             //发送TCP请求
-            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, serviceMetaInfo);
+            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
             return rpcResponse.getData();
         } catch (Exception e) {
             e.printStackTrace();

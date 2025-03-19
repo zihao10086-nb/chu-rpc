@@ -1,5 +1,7 @@
 package com.qiaochu.churpc.config;
 
+import com.qiaochu.churpc.loadbalancer.LoadBalancer;
+import com.qiaochu.churpc.loadbalancer.LoadBalancerKeys;
 import com.qiaochu.churpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -36,4 +38,8 @@ public class RpcConfig {
      * 模拟调用
      */
     private boolean mock = false;
+    /**
+     * 负载均衡器
+     */
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 }
