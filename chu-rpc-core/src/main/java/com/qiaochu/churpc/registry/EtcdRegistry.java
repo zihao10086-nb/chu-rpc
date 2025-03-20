@@ -11,6 +11,7 @@ import io.etcd.jetcd.*;
 import io.etcd.jetcd.options.GetOption;
 import io.etcd.jetcd.options.PutOption;
 import io.etcd.jetcd.watch.WatchEvent;
+import lombok.extern.slf4j.Slf4j;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
@@ -23,6 +24,7 @@ import java.util.stream.Collectors;
 /**
  * Etcd注册中心
  */
+@Slf4j
 public class EtcdRegistry implements Registry {
 
     private Client client;
@@ -89,11 +91,13 @@ public class EtcdRegistry implements Registry {
 
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
+
         //优先从缓存中获取
         List<ServiceMetaInfo> serviceMetaInfoList = registryServiceCache.readCache();
         if (serviceMetaInfoList!=null){
             return serviceMetaInfoList;
         }
+
         //前缀搜索，结尾一定要加“/”
         String searchPrefix = ETCD_ROOT_PATH + serviceKey + "/";
         try {
@@ -110,11 +114,11 @@ public class EtcdRegistry implements Registry {
                         //监听key变化
                         String key = keyValue.getKey().toString(StandardCharsets.UTF_8);
                         watch(key);
-
                         String value = keyValue.getValue().toString(StandardCharsets.UTF_8);
                         return JSONUtil.toBean(value, ServiceMetaInfo.class);
                     }).collect(Collectors.toList());
             registryServiceCache.writeCache(serviceMetaInfos);
+            log.info("服务列表：{}",serviceMetaInfos);
             return serviceMetaInfos;
         } catch (Exception e) {
             throw new RuntimeException("获取服务列表失败",e);

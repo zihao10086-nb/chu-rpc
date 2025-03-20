@@ -20,9 +20,9 @@ public class ConsumerExample {
         RegistryConfig registryConfig = new RegistryConfig();
         Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
         registry.init(registryConfig);
-        List<ServiceMetaInfo> serviceMetaInfos1 = registry.serviceDiscovery("");
+        List<ServiceMetaInfo> serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu.example.common.service.UserService:1.0");
         System.out.println(serviceMetaInfos1);
-        serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu");
+        serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu.example.common.service.UserService");
         System.out.println(serviceMetaInfos1);
         Thread.sleep(10000);
         serviceMetaInfos1= registry.serviceDiscovery("");

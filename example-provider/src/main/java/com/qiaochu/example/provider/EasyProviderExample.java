@@ -41,6 +41,6 @@ public class EasyProviderExample {
 //        httpServer.doStart(RpcApplication.getConfig().getServerPort());
         //启动TCP服务
         VertxTcpServer vertxTcpServer = new VertxTcpServer();
-        vertxTcpServer.doStart(8882);
+        vertxTcpServer.doStart(8888);
     }
 }

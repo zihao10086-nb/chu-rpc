@@ -10,6 +10,7 @@ import io.vertx.core.Vertx;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetSocket;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
@@ -18,6 +19,7 @@ import java.util.concurrent.ExecutionException;
 /**
  * Vertx TCP 请求客户端
  */
+@Slf4j
 public class VertxTcpClient {
 
     /**
@@ -68,17 +70,20 @@ public class VertxTcpClient {
                                 try {
                                     ProtocolMessage<RpcResponse> rpcResponseProtocolMessage =
                                             (ProtocolMessage<RpcResponse>) ProtocolMessageDecoder.decode(buffer);
+                                    log.info("xxxx",rpcResponseProtocolMessage);
                                     responseFuture.complete(rpcResponseProtocolMessage.getBody());
                                 } catch (IOException e) {
                                     throw new RuntimeException("协议消息解码错误");
                                 }
                             }
                     );
+
                     socket.handler(bufferHandlerWrapper);
 
                 });
 
         RpcResponse rpcResponse = responseFuture.get();
+
         // 记得关闭连接
         netClient.close();
         return rpcResponse;

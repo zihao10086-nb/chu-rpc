@@ -5,12 +5,14 @@ import com.qiaochu.churpc.model.RpcResponse;
 import com.qiaochu.churpc.serializer.Serializer;
 import com.qiaochu.churpc.serializer.SerializerFactory;
 import io.vertx.core.buffer.Buffer;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
 /**
  * 协议消息解码器
  */
+
 public class ProtocolMessageDecoder {
     /**
      * 解码消息
@@ -26,6 +28,7 @@ public class ProtocolMessageDecoder {
         if (magic!= ProtocolConstant.MESSAGE_MAGIC){
             throw new RuntimeException("消息magic非法");
         }
+
         header.setMagic(magic);
         header.setVersion(buffer.getByte(1));
         header.setSerializer(buffer.getByte(2));

@@ -7,10 +7,12 @@ import com.qiaochu.churpc.serializer.Serializer;
 import com.qiaochu.churpc.utils.ConfigUtils;
 import com.qiaochu.example.common.model.User;
 import com.qiaochu.example.common.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 简单服务消费者示例
  */
+@Slf4j
 public class EasyExampleConsumer {
 
     public static void main(String[] args) {
@@ -18,11 +20,8 @@ public class EasyExampleConsumer {
 //        //静态代理
 //        UserService userService = new UserServiceProxy();
         //动态代理
-        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
-
-
-
+        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         user.setName("qiaochu");
         //调用
         User newUser = userService.getUser(user);
