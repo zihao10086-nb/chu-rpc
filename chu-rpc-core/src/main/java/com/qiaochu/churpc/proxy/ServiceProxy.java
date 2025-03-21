@@ -9,6 +9,8 @@ import com.qiaochu.churpc.config.RpcConfig;
 import com.qiaochu.churpc.constant.RpcConstant;
 import com.qiaochu.churpc.fault.retry.RetryStrategy;
 import com.qiaochu.churpc.fault.retry.RetryStrategyFactory;
+import com.qiaochu.churpc.fault.tolerant.TolerantStrategy;
+import com.qiaochu.churpc.fault.tolerant.TolerantStrategyFactory;
 import com.qiaochu.churpc.loadbalancer.LoadBalancer;
 import com.qiaochu.churpc.loadbalancer.LoadBalancerFactory;
 import com.qiaochu.churpc.model.RpcRequest;
@@ -82,16 +84,19 @@ public class ServiceProxy implements InvocationHandler {
             Map<String, Object> requestParams = new HashMap<>();
             requestParams.put("methodName",rpcRequest.getMethodName());
             ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfos);
-
-            //使用重试机制
-            RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
-
-            RpcResponse rpcResponse = retryStrategy.doRetry(() ->
-                VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
-            );
+            RpcResponse rpcResponse;
+            try {
+                //使用重试机制
+                RetryStrategy retryStrategy = RetryStrategyFactory.getInstance(rpcConfig.getRetryStrategy());
+                rpcResponse = retryStrategy.doRetry(() ->
+                        VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo)
+                );
+            }catch (Exception e){
+                //容错机制
+                TolerantStrategy tolerantStrategy = TolerantStrategyFactory.getInstance(rpcConfig.getTolerantStrategy());
+                rpcResponse = tolerantStrategy.doTolerant(null,e);
+            }
 //            RpcResponse rpcResponse = VertxTcpClient.doRequest(rpcRequest, selectedServiceMetaInfo);
-
-
             return rpcResponse.getData();
         } catch (Exception e) {
             e.printStackTrace();

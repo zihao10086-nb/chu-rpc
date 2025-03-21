@@ -1,33 +1,28 @@
 package com.qiaochu.example.consumer;
 
-import com.qiaochu.churpc.RpcApplication;
-import com.qiaochu.churpc.config.RegistryConfig;
-import com.qiaochu.churpc.config.RpcConfig;
-import com.qiaochu.churpc.model.ServiceMetaInfo;
-import com.qiaochu.churpc.registry.Registry;
-import com.qiaochu.churpc.registry.RegistryFactory;
-import com.qiaochu.churpc.utils.ConfigUtils;
-
-import java.util.List;
+import com.qiaochu.churpc.bootstrap.ConsumerBootstrap;
+import com.qiaochu.churpc.proxy.ServiceProxyFactory;
+import com.qiaochu.example.common.model.User;
+import com.qiaochu.example.common.service.UserService;
 
 /**
  * 简易服务消费者示例
  */
 public class ConsumerExample {
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
+        // 服务提供者初始化
+        ConsumerBootstrap.init();
 
-        RpcConfig rpcConfig = ConfigUtils.loadConfig(RpcConfig.class,"rpc");
-        RegistryConfig registryConfig = new RegistryConfig();
-        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
-        registry.init(registryConfig);
-        List<ServiceMetaInfo> serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu.example.common.service.UserService:1.0");
-        System.out.println(serviceMetaInfos1);
-        serviceMetaInfos1 = registry.serviceDiscovery("com.qiaochu.example.common.service.UserService");
-        System.out.println(serviceMetaInfos1);
-        Thread.sleep(10000);
-        serviceMetaInfos1= registry.serviceDiscovery("");
-        System.out.println(serviceMetaInfos1);
-
-        System.out.println(rpcConfig);
+        // 获取代理
+        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
+        User user = new User();
+        user.setName("yupi");
+        // 调用
+        User newUser = userService.getUser(user);
+        if (newUser != null) {
+            System.out.println(newUser.getName());
+        } else {
+            System.out.println("user == null");
+        }
     }
 }

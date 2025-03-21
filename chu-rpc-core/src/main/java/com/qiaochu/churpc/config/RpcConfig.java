@@ -1,6 +1,7 @@
 package com.qiaochu.churpc.config;
 
 import com.qiaochu.churpc.fault.retry.RetryStrategyKeys;
+import com.qiaochu.churpc.fault.tolerant.TolerantStrategyKeys;
 import com.qiaochu.churpc.loadbalancer.LoadBalancer;
 import com.qiaochu.churpc.loadbalancer.LoadBalancerKeys;
 import com.qiaochu.churpc.serializer.SerializerKeys;
@@ -47,4 +48,8 @@ public class RpcConfig {
      * 重试策略
      */
     private String retryStrategy= RetryStrategyKeys.NO;
+    /**
+     * 容错策略
+     */
+    private String tolerantStrategy= TolerantStrategyKeys.FAIL_FAST;
 }
