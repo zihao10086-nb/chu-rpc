@@ -13,10 +13,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="chu-rpc-core" />
-        <module name="chu-rpc-easy" />
+        <module name="example-consumer-starter" />
         <module name="example-provider" />
         <module name="example-common" />
+        <module name="chu-rpc-core" />
+        <module name="example-provider-starter" />
+        <module name="chu-rpc-easy" />
+        <module name="chu-rpc-spring-boot-starter" />
         <module name="example-consumer" />
       </profile>
     </annotationProcessing>

@@ -1,0 +1,2 @@
+no=com.qiaochu.churpc.fault.retry.NoRetryStrategy
+fixedInterval=com.qiaochu.churpc.fault.retry.FixedIntervalRetryStrategy

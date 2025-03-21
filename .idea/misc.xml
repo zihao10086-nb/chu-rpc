@@ -9,6 +9,9 @@
         <option value="$PROJECT_DIR$/example-provider/pom.xml" />
         <option value="$PROJECT_DIR$/chu-rpc-easy/pom.xml" />
         <option value="$PROJECT_DIR$/chu-rpc-core/pom.xml" />
+        <option value="$PROJECT_DIR$/chu-rpc-spring-boot-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/example-provider-starter/pom.xml" />
+        <option value="$PROJECT_DIR$/example-consumer-starter/pom.xml" />
       </list>
     </option>
   </component>

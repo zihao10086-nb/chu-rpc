@@ -1,0 +1,4 @@
+failBack=com.qiaochu.churpc.fault.tolerant.FailBackStrategy
+failFast=com.qiaochu.churpc.fault.tolerant.FailFastStrategy
+failOver=com.qiaochu.churpc.fault.tolerant.FailOverStrategy
+failSafe=com.qiaochu.churpc.fault.tolerant.FailSafeStrategy
